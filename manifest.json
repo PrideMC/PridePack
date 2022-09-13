@@ -1,0 +1,35 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "PridePack",
+    "description": "This is official server pack for our server.",
+    "uuid": "22f2f484-706e-c415-02eb-e6e89da3babc",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      13,
+      0
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "873625f3-4a23-45b2-f1be-97868b0fabcd",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    }
+  ],
+  "metadata": {
+    "authors": [
+      "PrideMC"
+    ],
+    "url": "https://github.com/PrideMC"
+  }
+}

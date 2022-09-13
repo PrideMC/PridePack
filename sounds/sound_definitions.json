@@ -1,0 +1,58 @@
+{
+  "pride.hitmarker": {
+    "category": "pride",
+    "sounds": [
+      {
+        "name": "sounds/pride/hitmarker"
+      }
+    ]
+  },
+  "pride.shoot1": {
+    "category": "pride",
+    "sounds": [
+      {
+        "name": "sounds/pride/shoot1"
+      }
+    ]
+  },
+  "pride.shoot2": {
+    "category": "pride",
+    "sounds": [
+      {
+        "name": "sounds/pride/shoot2"
+      }
+    ]
+  },
+  "pride.thud1": {
+    "category": "pride",
+    "sounds": [
+      {
+        "name": "sounds/pride/thud1"
+      }
+    ]
+  },
+  "pride.thud2": {
+    "category": "pride",
+    "sounds": [
+      {
+        "name": "sounds/pride/thud2"
+      }
+    ]
+  },
+  "pride.ready1": {
+    "category": "pride",
+    "sounds": [
+      {
+        "name": "sounds/pride/ready1"
+      }
+    ]
+  },
+  "pride.countdown": {
+    "category": "pride",
+    "sounds": [
+      {
+        "name": "sounds/pride/countdown"
+      }
+    ]
+  }
+}
