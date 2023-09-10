@@ -7,8 +7,10 @@ jobs:
  build-phar:
    runs-on: ubuntu-latest
    steps:
-     - name: Git checkout alternatives
-       run: mkdir PridePack && cd PridePack && git clone https://github.com/PrideMC/PridePack && cd ..
+     - name: Checkout the repository.
+       uses: actions/checkout@v3
+       with:
+          path: PridePack
      - name: Download mcrputil.
        run: "curl -sL https://github.com/valaphee/mcrputil/releases/latest/download/mcrputil -o mcrputil"
      - name: chmod the mcrputil.
