@@ -31,7 +31,5 @@
       "PrideMC"
     ],
     "url": "https://github.com/PrideMC"
-  },
-  
-  "capabilities" : ["raytraced"]
+  }
 }
