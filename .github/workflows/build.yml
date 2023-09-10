@@ -13,8 +13,8 @@ jobs:
        run: mkdir PridePack & mv * PridePack/
      - name: Download mcrputil.
        run: "curl -sL https://github.com/valaphee/mcrputil/releases/latest/download/mcrputil -o mcrputil"
-     - name: chmod the mcrputil.
-       run: "chmod +x ./mcrputil"
+     - name: chmod the mcrputil and create dist directory
+       run: "chmod +x ./mcrputil & mkdir PridePack.dist"
      - name: Build artifact
        run: "./mcrputil encrypt PridePack/ PridePack.dist/"
      - name: Archive files
