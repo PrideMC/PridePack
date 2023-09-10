@@ -16,7 +16,7 @@ jobs:
      - name: chmod the mcrputil.
        run: "chmod +x ./mcrputil"
      - name: Build artifact
-       run: "./mcrputil encrypt PridePack/ PridePack.dist/"
+       run: "./mcrputil encrypt ./PridePack/ ./PridePack.dist/"
      - name: Archive files
        run: "zip -r ./upload/PridePack.mcpack ./PridePack.dist/"
      - name: Move encryption key.
