@@ -3,7 +3,7 @@
   "header": {
     "name": "PridePack",
     "description": "This is official server pack for our server.",
-    "uuid": "22f2f484-706e-c415-02eb-e6e89da3babc",
+    "uuid": "22f2f484-706e-c415-02eb-e6e89da3babd",
     "version": [
       1,
       0,
@@ -18,7 +18,7 @@
   "modules": [
     {
       "type": "resources",
-      "uuid": "873625f3-4a23-45b2-f1be-97868b0fabcd",
+      "uuid": "873625f3-4a23-45b2-f1be-97868b0fabce",
       "version": [
         1,
         0,
@@ -31,5 +31,7 @@
       "PrideMC"
     ],
     "url": "https://github.com/PrideMC"
-  }
+  },
+  
+  "capabilities" : ["raytraced"]
 }
