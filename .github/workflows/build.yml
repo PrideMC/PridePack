@@ -1,0 +1,35 @@
+name: Build encrypted pack with mcrputil
+run-name: Build encrypted pack of PridePack
+on:
+  push:
+  workflow_dispatch:
+jobs:
+ build-phar:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Checkout the repository.
+       uses: actions/checkout@v3
+       with:
+          path: 'PridePack/'
+     - name: Download mcrputil.
+       run: "curl -sL https://github.com/valaphee/mcrputil/releases/latest/download/mcrputil -o mcrputil"
+     - name: chmod the mcrputil.
+       run: "chmod +x ./mcrputil"
+     - name: Build artifact
+       run: "./mcrputil encrypt PridePack/ PridePack.dist/"
+     - name: Archive files
+       run: "zip -r ./upload/PridePack.mcpack ./PridePack.dist/"
+     - name: Move encryption key.
+       run: "mv ./PridePack.encrypted.key ./upload/encryption-key.txt"
+     - name: Upload build artifact
+       uses: actions/upload-artifact@v3
+       with:
+          name: PridePack.mcpack
+          path: PridePack.mcpack
+     - name: Upload pack encryption key
+       uses: actions/upload-artifact@v3
+       with:
+          name: PridePack.mcpack
+          path: ./upload/*
+     - name: Codespace Cleanup
+       run: "rm -rf *"
