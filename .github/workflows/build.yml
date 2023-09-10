@@ -10,7 +10,7 @@ jobs:
      - name: Checkout the repository.
        uses: actions/checkout@v3
        with:
-          path: 'PridePack/'
+          path: './PridePack/'
      - name: Download mcrputil.
        run: "curl -sL https://github.com/valaphee/mcrputil/releases/latest/download/mcrputil -o mcrputil"
      - name: chmod the mcrputil.
