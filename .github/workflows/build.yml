@@ -17,8 +17,8 @@ jobs:
        run: "chmod +x ./mcrputil & mkdir PridePack.dist"
      - name: Build artifact
        run: "./mcrputil encrypt PridePack/ PridePack.dist/"
-     - name: Archive files
-       run: "zip -r ./upload/PridePack.mcpack ./PridePack.dist/"
+     - name: Create upload file and Archive files
+       run: "mkdir upload && zip -r ./upload/PridePack.mcpack ./PridePack.dist/"
      - name: Move encryption key.
        run: "mv ./PridePack.encrypted.key ./upload/encryption-key.txt"
      - name: Upload build artifact
