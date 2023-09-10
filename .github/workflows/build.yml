@@ -4,23 +4,23 @@ on:
   push:
   workflow_dispatch:
 jobs:
- build-phar:
+ build-pack:
    runs-on: ubuntu-latest
    steps:
      - name: Checkout the repository.
        uses: actions/checkout@v3
-       with:
-          path: PridePack
+     - name: Create & move files on seperate directory
+       run: mkdir PridePack & mv * PridePack/
      - name: Download mcrputil.
        run: "curl -sL https://github.com/valaphee/mcrputil/releases/latest/download/mcrputil -o mcrputil"
-     - name: chmod the mcrputil.
-       run: "chmod +x ./mcrputil"
+     - name: chmod the mcrputil and create dist directory
+       run: "chmod +x ./mcrputil & mkdir PridePack.dist"
      - name: Build artifact
-       run: "./mcrputil encrypt ./PridePack/ ./PridePack.dist/"
-     - name: Archive files
-       run: "zip -r ./upload/PridePack.mcpack ./PridePack.dist/"
+       run: "./mcrputil encrypt PridePack/ PridePack.dist/"
+     - name: Create upload file and Archive files
+       run: "mkdir upload && zip -r ./upload/PridePack.mcpack ./PridePack.dist/"
      - name: Move encryption key.
-       run: "mv ./PridePack.encrypted.key ./upload/encryption-key.txt"
+       run: "mv ./PridePack.dist.key ./upload/encryption-key.txt"
      - name: Upload build artifact
        uses: actions/upload-artifact@v3
        with:

@@ -1,0 +1,57 @@
+name: Draft a release
+run-name: Build encrypted pack with mcrputil and Draft a release
+on:
+  push:
+    tags: 
+    - "v*"
+jobs:
+ build-pack:
+   runs-on: ubuntu-latest
+   if: "startsWith(github.event.head_commit.message, 'Release ')"
+   steps:
+     - name: Checkout the repository.
+       uses: actions/checkout@v3
+     - name: Create & move files on seperate directory
+       run: mkdir PridePack & mv * PridePack/
+     - name: Download mcrputil.
+       run: "curl -sL https://github.com/valaphee/mcrputil/releases/latest/download/mcrputil -o mcrputil"
+     - name: chmod the mcrputil and create dist directory
+       run: "chmod +x ./mcrputil & mkdir PridePack.dist"
+     - name: Build artifact
+       run: "./mcrputil encrypt PridePack/ PridePack.dist/"
+     - name: Create upload file and Archive files
+       run: "mkdir upload && zip -r ./upload/PridePack.mcpack ./PridePack.dist/"
+     - name: Move encryption key.
+       run: "mv ./PridePack.dist.key ./upload/encryption-key.txt"
+     - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: PridePack ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Encryption Key
+        id: upload-encryption-key
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ./uploads/encryption-key.txt
+          asset_name: PridePack.key
+          asset_content_type: application/text
+      - name: Upload pack
+        id: upload-pack
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./uploads/PridePack.mcpack
+          asset_name: PridePack.mcpack
+          asset_content_type: application/zip
+     - name: Codespace Cleanup
+       run: "rm -rf *"
