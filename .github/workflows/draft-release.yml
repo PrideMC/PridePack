@@ -23,11 +23,6 @@ jobs:
        run: "mkdir upload && zip -r ./upload/PridePack.mcpack ./PridePack.dist/ -x .git/*"
      - name: Move encryption key.
        run: "mv ./PridePack.dist/.key ./upload/PridePack.key"
-     - name: Upload pack encryption key
-       uses: actions/upload-artifact@v3
-       with:
-          name: PridePack.mcpack
-          path: ./upload/*
      - name: Generate release body markdown
        run: "echo <hr><br><center><p align="center"><b>This pack is being encrypted.</b><br><code>$(cat ./upload/PridePack.key)</code></p></center><br><hr> >> ./upload/release_body.md"
      - name: Create Release
