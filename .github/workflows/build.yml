@@ -18,14 +18,9 @@ jobs:
      - name: Build artifact
        run: "./mcrputil encrypt PridePack/ PridePack.dist/"
      - name: Create upload file and Archive files
-       run: "mkdir upload && zip -r ./upload/PridePack.mcpack ./PridePack.dist/"
+       run: "mkdir upload && zip -r ./upload/PridePack.mcpack ./PridePack.dist/ -x .git/*"
      - name: Move encryption key.
-       run: "mv ./PridePack.dist.key ./upload/encryption-key.txt"
-     - name: Upload build artifact
-       uses: actions/upload-artifact@v3
-       with:
-          name: PridePack.mcpack
-          path: PridePack.mcpack
+       run: "mv ./PridePack.key ./upload/PridePack.key"
      - name: Upload pack encryption key
        uses: actions/upload-artifact@v3
        with:
