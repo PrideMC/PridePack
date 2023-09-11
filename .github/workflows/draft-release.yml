@@ -2,10 +2,14 @@ name: Draft a release
 run-name: Build encrypted pack with mcrputil and Draft a release
 on:
   push:
+    tags: 
+    - "v*"
 jobs:
  build-pack:
    runs-on: ubuntu-latest
    if: "startsWith(github.event.head_commit.message, 'Release ')"
+   outputs:
+      upload_url: ${{ steps.step_upload_url.outputs.upload_url }}
    steps:
      - name: Checkout the repository.
        uses: actions/checkout@v3
@@ -22,9 +26,9 @@ jobs:
      - name: Move encryption key.
        run: "mv ./PridePack.dist/.key ./upload/PridePack.key"
      - name: Generate release body markdown
-       run: "echo \"<hr><br><center><p align=\"center\"><b>This pack is being encrypted.</b><br><code>$(cat ./upload/PridePack.key)</code></p></center><br><hr>\" >> ./upload/release_body.md"
+       run: "echo <hr><br><center><p align="center"><b>This pack is being encrypted.</b><br><code>$(cat ./upload/PridePack.key)</code></p></center><br><hr> >> ./upload/release_body.md"
      - name: Release Package
-       id: release-package
+       id: create_release
        uses: ChanTsune/release-with-commit@v2.8.0
        with:
           regexp: "Release ((\\d+([.]\\d+)*)-(alpha|beta|rc)\\d*)((\\s|\\S)*)"
@@ -36,24 +40,14 @@ jobs:
           prerelease: false
        env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' # This token is provided by Actions, you do not need to create your own token
-     - name: Upload Encryption Key
-       id: upload-encryption-key
+     - name: Upload Release Assets
+       id: upload-release-asset 
        uses: actions/upload-release-asset@v1
        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
        with:
-          upload_url: ${{ steps.release-package.outputs.upload_url }} 
-          asset_path: ./uploads/PridePack.key
-          asset_name: PridePack.key
-          asset_content_type: application/text
-     - name: Upload pack
-       id: upload-pack
-       uses: actions/upload-release-asset@v1
-       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-       with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./uploads/PridePack.mcpack
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./upload/PridePack.mcpack
           asset_name: PridePack.mcpack
           asset_content_type: application/zip
      - name: Codespace Cleanup
