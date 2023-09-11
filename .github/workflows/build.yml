@@ -20,7 +20,7 @@ jobs:
      - name: Create upload file and Archive files
        run: "mkdir upload && zip -r ./upload/PridePack.mcpack ./PridePack.dist/ -x .git/*"
      - name: Move encryption key.
-       run: "ls && ls ./PridePack/ && ls ./PridePack.dist/ && mv ./PridePack.key ./upload/PridePack.key"
+       run: "mv ./PridePack.dist/.key ./upload/PridePack.key"
      - name: Upload pack encryption key
        uses: actions/upload-artifact@v3
        with:
