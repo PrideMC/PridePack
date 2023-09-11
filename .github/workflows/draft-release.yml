@@ -2,8 +2,6 @@ name: Draft a release
 run-name: Build encrypted pack with mcrputil and Draft a release
 on:
   push:
-    tags: 
-    - "v*"
 jobs:
  build-pack:
    runs-on: ubuntu-latest
@@ -25,17 +23,18 @@ jobs:
        run: "mv ./PridePack.dist/.key ./upload/PridePack.key"
      - name: Generate release body markdown
        run: "echo <hr><br><center><p align=\"center\"><b>This pack is being encrypted.</b><br><code>$(cat ./upload/PridePack.key)</code></p></center><br><hr> >> ./upload/release_body.md"
-     - name: Create Release
-       id: create_release
-       uses: actions/create-release@v1
-       env:
-         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+     - name: Release Package
+       uses: ChanTsune/release-with-commit@v2.8.0
        with:
-         tag_name: ${{ github.ref }}
-         release_name: PridePack ${{ github.ref }}
-         body_path: "./upload/release_body.md"
-         draft: false
-         prerelease: false
+          regexp: "Release ((\\d+([.]\\d+)*)-(alpha|beta|rc)\\d*)((\\s|\\S)*)"
+          regexp_options: "us"
+          release_name: "PridePack v$1"
+          tag_name: "v$1"
+          body_path: "./upload/release_body.md"
+          draft: false
+          prerelease: false
+       env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}' # This token is provided by Actions, you do not need to create your own token
      - name: Upload Encryption Key
        id: upload-encryption-key
        uses: actions/upload-release-asset@v1
