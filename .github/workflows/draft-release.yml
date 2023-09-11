@@ -12,27 +12,27 @@ jobs:
      - name: Checkout the repository.
        uses: actions/checkout@v3
      - name: Create & move files on seperate directory
-       run: mkdir PridePack & mv * PridePack/
+       run: mkdir PridePack & mv * ./PridePack/
      - name: Download mcrputil.
        run: "curl -sL https://github.com/valaphee/mcrputil/releases/latest/download/mcrputil -o mcrputil"
      - name: chmod the mcrputil and create dist directory
        run: "chmod +x ./mcrputil & mkdir PridePack.dist"
      - name: Build artifact
-       run: "./mcrputil encrypt PridePack/ PridePack.dist/"
-     - name: Create upload file and Archive files
+       run: "./mcrputil encrypt ./PridePack/ ./PridePack.dist/"
+     - name: Create upload folder and Archive files
        run: "mkdir upload && zip -r ./upload/PridePack.mcpack ./PridePack.dist/"
      - name: Move encryption key.
-       run: "mv ./PridePack.dist.key ./upload/encryption-key.txt"
+       run: "ls && mv ./PridePack.dist.key ./upload/encryption-key.txt"
      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: PridePack ${{ github.ref }}
-          draft: false
-          prerelease: false
+       id: create_release
+       uses: actions/create-release@v1
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       with:
+         tag_name: ${{ github.ref }}
+         release_name: PridePack ${{ github.ref }}
+         draft: false
+         prerelease: false
       - name: Upload Encryption Key
         id: upload-encryption-key
         uses: actions/upload-release-asset@v1
