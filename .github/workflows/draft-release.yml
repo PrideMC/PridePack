@@ -24,7 +24,7 @@ jobs:
      - name: Move encryption key.
        run: "mv ./PridePack.dist/.key ./upload/PridePack.key"
      - name: Generate release body markdown
-       run: "echo <hr><br><center><p align="center"><b>This pack is being encrypted.</b><br><code>$(cat ./upload/PridePack.key)</code></p></center><br><hr> >> ./upload/release_body.md"
+       run: "echo <hr><br><center><p align=\"center\"><b>This pack is being encrypted.</b><br><code>$(cat ./upload/PridePack.key)</code></p></center><br><hr> >> ./upload/release_body.md"
      - name: Create Release
        id: create_release
        uses: actions/create-release@v1
@@ -36,22 +36,22 @@ jobs:
          body_path: "./upload/release_body.md"
          draft: false
          prerelease: false
-      - name: Upload Encryption Key
-        id: upload-encryption-key
-        uses: actions/upload-release-asset@v1
-        env:
+     - name: Upload Encryption Key
+       id: upload-encryption-key
+       uses: actions/upload-release-asset@v1
+       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
+       with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} 
           asset_path: ./uploads/encryption-key.txt
           asset_name: PridePack.key
           asset_content_type: application/text
-      - name: Upload pack
-        id: upload-pack
-        uses: actions/upload-release-asset@v1
-        env:
+     - name: Upload pack
+       id: upload-pack
+       uses: actions/upload-release-asset@v1
+       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
+       with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./uploads/PridePack.mcpack
           asset_name: PridePack.mcpack
