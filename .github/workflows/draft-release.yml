@@ -2,8 +2,6 @@ name: Draft a release
 run-name: Build encrypted pack with mcrputil and Draft a release
 on:
   push:
-    tags: 
-    - "v*"
 jobs:
  build-pack:
    runs-on: ubuntu-latest
