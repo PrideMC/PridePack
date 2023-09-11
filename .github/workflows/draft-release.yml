@@ -22,8 +22,9 @@ jobs:
      - name: Move encryption key.
        run: "mv ./PridePack.dist/.key ./upload/PridePack.key"
      - name: Generate release body markdown
-       run: "echo <hr><br><center><p align=\"center\"><b>This pack is being encrypted.</b><br><code>$(cat ./upload/PridePack.key)</code></p></center><br><hr> >> ./upload/release_body.md"
+       run: "echo \"<hr><br><center><p align=\"center\"><b>This pack is being encrypted.</b><br><code>$(cat ./upload/PridePack.key)</code></p></center><br><hr>\" >> ./upload/release_body.md"
      - name: Release Package
+       id: release-package
        uses: ChanTsune/release-with-commit@v2.8.0
        with:
           regexp: "Release ((\\d+([.]\\d+)*)-(alpha|beta|rc)\\d*)((\\s|\\S)*)"
@@ -41,8 +42,8 @@ jobs:
        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} 
-          asset_path: ./uploads/encryption-key.txt
+          upload_url: ${{ steps.release-package.outputs.upload_url }} 
+          asset_path: ./uploads/PridePack.key
           asset_name: PridePack.key
           asset_content_type: application/text
      - name: Upload pack
